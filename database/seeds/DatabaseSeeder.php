@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+    	// dit is een test comment voor git
         // $this->call(UsersTableSeeder::class);
         DB::table('articles')->insert([
             [
