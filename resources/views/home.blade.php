@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+{{--@extends('includes.header')--}}
 @section('content')
 <div class="container">
     <div class="row">
@@ -11,9 +11,6 @@
                     <a class="btn btn-primary" href="/rack" role="button">Go to rack</a>
                 </div>
             </div>
-            {{--<div class="button" >--}}
-                {{--<a class="btn btn-primary" href="/rack" role="button">Rek</a>--}}
-            {{--</div>--}}
         </div>
     </div>
 </div>

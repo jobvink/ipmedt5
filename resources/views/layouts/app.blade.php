@@ -81,6 +81,8 @@
         @yield('content')
     </div>
 
+    @include('includes.footer')
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
