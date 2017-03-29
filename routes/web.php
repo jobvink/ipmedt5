@@ -22,3 +22,7 @@ Route::post('/rack/destroy', 'RackController@destroy');
 Route::get('/rack/{rack}', 'RackController@show');
 Auth::routes();
 Route::get('/home', 'HomeController@index');
+Route::get('/test', function (){
+    $products = Rack::find(1)->products;
+    return view('pages.home', compact('products'));
+});
