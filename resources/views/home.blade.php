@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@includes('includes.header')
+@extends('includes.header')
 @section('content')
 <div class="container">
     <div class="row">
@@ -18,5 +18,5 @@
     </div>
 </div>
 @endsection
-@includes('includes.footer')
+@extends('includes.footer')
 
