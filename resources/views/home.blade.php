@@ -8,9 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    <a class="btn btn-primary" href="/rack" role="button">Go to rack</a>
                 </div>
             </div>
+            {{--<div class="button" >--}}
+                {{--<a class="btn btn-primary" href="/rack" role="button">Rek</a>--}}
+            {{--</div>--}}
         </div>
     </div>
 </div>
