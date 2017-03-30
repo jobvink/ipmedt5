@@ -51,7 +51,7 @@
     <div class="form-inline">
         <label for="" class="col-sm-2 col-form-label">XL</label>
         <input type="number" min="0" placeholder="Voorraad" class="form-control col-4" id="stck_xl" name="stck_xl">
-        <input type="number" min="0" max="9999999999999" placeholder="Barcode" class="form-control col-4" id="id_xl" name="id_x;">
+        <input type="number" min="0" max="9999999999999" placeholder="Barcode" class="form-control col-4" id="id_xl" name="id_xl;">
     </div>
     <br>
     <button type="submit" class="btn btn-default">Voeg product toe</button>
