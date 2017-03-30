@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Product;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -14,7 +15,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        // deze funcite maakt een view met alle articlen
+        $articles = Article::all();
+        return view('article.index', compact('articles'));
     }
 
     /**
@@ -35,7 +38,42 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // deze functie vangt het article op en bewaart het in de database.
+        $article = new Article;
+        $article->id = $request->id;
+        $article->name = $request->name;
+        $article->description = $request->description;
+        $xs = new Product;
+        $xs->size = 'XS';
+        $s = new Product;
+        $s->size = 'S';
+        $m = new Product;
+        $m->size = 'M';
+        $l = new Product;
+        $l->size = 'L';
+        $xl = new Product;
+        $xl->size = 'XL';
+        $xs->id = $request->id-xs;
+        $s->id = $request->id-s;
+        $m->id = $request->id-m;
+        $l->id = $request->id-l;
+        $xl->id = $request->id-xl;
+        $xs->stock = $request->stck-xs;
+        $s->stock = $request->stck-s;
+        $m->stock = $request->stck-m;
+        $l->stock = $request->stck-l;
+        $xl->stock = $request->stck-xl;
+        $xs->stock = $request->stck-xs;
+        $s->stock = $request->stck-s;
+        $m->stock = $request->stck-m;
+        $l->stock = $request->stck-l;
+        $xl->stock = $request->stck-xl;
+        $article->save();
+        $article->products()->save($xs);
+        $article->products()->save($s);
+        $article->products()->save($m);
+        $article->products()->save($l);
+        $article->products()->save($xl);
     }
 
     /**
@@ -83,5 +121,6 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
+        Article::destroy($id);
     }
 }
