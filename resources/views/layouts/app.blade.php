@@ -32,6 +32,7 @@
     {{--'tabel' section in rack/show.blade niet in div omdat tabel + tekst anders niet mooi wordt uitgelijnd--}}
         @yield('tabel')
 
+    {{--'articletable' section in article/show.blade--}}
         @yield('articletable')
 
     {{--Footer in includes in footer.blade en wordt in elke pagina geinclude--}}

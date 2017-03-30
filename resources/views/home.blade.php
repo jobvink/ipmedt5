@@ -7,8 +7,16 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
+                <div class="panel-heading">
                     <a class="btn btn-primary" href="/rack" role="button">Go to rack</a>
+                </div>
+
+                <div class="panel-heading">
+                    <a class="btn btn-primary" href="/article/index" role="button">Go to article</a>
+                </div>
+
+                <div class="panel-heading">
+                    <a class="btn btn-primary" href="/article/create" role="button">Add article</a>
                 </div>
             </div>
         </div>
