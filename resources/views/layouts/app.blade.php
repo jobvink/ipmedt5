@@ -29,8 +29,10 @@
             @yield('content')
         </div>
 
-    {{--'tabel' section in show.blade niet in div omdat tabel + tekst anders niet mooi wordt uitgelijnd--}}
+    {{--'tabel' section in rack/show.blade niet in div omdat tabel + tekst anders niet mooi wordt uitgelijnd--}}
         @yield('tabel')
+
+        @yield('articletable')
 
     {{--Footer in includes in footer.blade en wordt in elke pagina geinclude--}}
     {{--@include('includes.footer')--}}

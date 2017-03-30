@@ -26,3 +26,4 @@ Route::get('/rekken', function (){
     $products = Rack::find(1)->products;
     return view('pages.home', compact('products'));
 });
+Route::get('/article/{article}', 'ArticleController@show');
