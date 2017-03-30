@@ -2,7 +2,7 @@
 
 @section('content')
     @foreach($racks as $rack)
-        <h1><a href="/rack/{{$rack->id}}" >{{$rack->id}}</a></h1>
+        <h2>Rack: <a href="/rack/{{$rack->id}}" >{{$rack->id}}</a></h2>
     @endforeach
 @endsection
 
