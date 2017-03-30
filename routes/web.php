@@ -24,3 +24,5 @@ Auth::routes();
 Route::get('/article/create', 'ArticleController@create');
 Route::post('/article/store', 'ArticleController@store');
 Route::get('/home', 'HomeController@index');
+Route::get('/article/{article}', 'ArticleController@show');
+
