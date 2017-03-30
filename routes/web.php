@@ -21,8 +21,6 @@ Route::post('/rack/update', 'RackController@update');
 Route::post('/rack/destroy', 'RackController@destroy');
 Route::get('/rack/{rack}', 'RackController@show');
 Auth::routes();
+Route::get('/article/create', 'ArticleController@create');
+Route::post('/article/store', 'ArticleController@store');
 Route::get('/home', 'HomeController@index');
-Route::get('/rekken', function (){
-    $products = Rack::find(1)->products;
-    return view('pages.home', compact('products'));
-});
