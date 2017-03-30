@@ -33,7 +33,7 @@
         @yield('tabel')
 
     {{--Footer in includes in footer.blade en wordt in elke pagina geinclude--}}
-    @include('includes.footer')
+    {{--@include('includes.footer')--}}
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

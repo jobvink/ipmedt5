@@ -16,4 +16,4 @@
 </div>
 @endsection
 
-@extends('includes.footer')
+{{--@extends('includes.footer')--}}
