@@ -39,41 +39,37 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         // deze functie vangt het article op en bewaart het in de database.
-        $article = new Article;
-        $article->id = $request->id;
-        $article->name = $request->name;
-        $article->description = $request->description;
-        $xs = new Product;
-        $xs->size = 'XS';
-        $s = new Product;
-        $s->size = 'S';
-        $m = new Product;
-        $m->size = 'M';
-        $l = new Product;
-        $l->size = 'L';
-        $xl = new Product;
-        $xl->size = 'XL';
-        $xs->id = $request->id-xs;
-        $s->id = $request->id-s;
-        $m->id = $request->id-m;
-        $l->id = $request->id-l;
-        $xl->id = $request->id-xl;
-        $xs->stock = $request->stck-xs;
-        $s->stock = $request->stck-s;
-        $m->stock = $request->stck-m;
-        $l->stock = $request->stck-l;
-        $xl->stock = $request->stck-xl;
-        $xs->stock = $request->stck-xs;
-        $s->stock = $request->stck-s;
-        $m->stock = $request->stck-m;
-        $l->stock = $request->stck-l;
-        $xl->stock = $request->stck-xl;
-        $article->save();
-        $article->products()->save($xs);
-        $article->products()->save($s);
-        $article->products()->save($m);
-        $article->products()->save($l);
-        $article->products()->save($xl);
+        $article = Article::create([
+            'id' => $request->id,
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        $article->products()->create([
+            'size' => 'XS',
+            'stock' => $request->stck_xs,
+            'id' => $request->id_xs,
+        ]);
+        $article->products()->create([
+            'size' => 'S',
+            'stock' => $request->stck_s,
+            'id' => $request->id_s,
+        ]);
+        $article->products()->create([
+            'size' => 'M',
+            'stock' => $request->stck_m,
+            'id' => $request->id_m,
+        ]);
+        $article->products()->create([
+            'size' => 'L',
+            'stock' => $request->stck_l,
+            'id' => $request->id_l,
+        ]);
+        $article->products()->create([
+            'size' => 'XL',
+            'stock' => $request->stck_xl,
+            'id' => $request->id_xl,
+        ]);
+        return redirect('/article/index');
     }
 
     /**
@@ -98,6 +94,8 @@ class ArticleController extends Controller
     public function edit($id)
     {
         //
+        $article = Article::find($id);
+        return view('article.edit', compact('article'));
     }
 
     /**
@@ -109,7 +107,37 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+        $article->id = $request->id;
+        $article->name = $request->name;
+        $article->description = $request->description;
+        $article->save();
+        $xs = new Product;
+        $xs->size = "XS";
+        $xs->stock = $request->stck_xs;
+        $xs->id = $request->id_xs;
+        $article->products()->save($xs);
+        $s = new Product;
+        $s->size = "S";
+        $s->stock = $request->stck_s;
+        $s->id = $request->id_s;
+        $article->products()->save($s);
+        $m = new Product;
+        $m->size = "M";
+        $m->stock = $request->stck_m;
+        $m->id = $request->id_m;
+        $article->products()->save($m);
+        $l = new Product;
+        $l->size = "L";
+        $l->stock = $request->stck_l;
+        $l->id = $request->id_l;
+        $article->products()->save($l);
+        $xl = new Product;
+        $xl->size = "XL";
+        $xl->stock = $request->stck_xl;
+        $xl->id = $request->id_xl;
+        $article->products()->save($xl);
+        return redirect('/article/index');
     }
 
     /**
