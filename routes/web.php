@@ -26,4 +26,4 @@ Route::post('/article/store', 'ArticleController@store');
 Route::get('/home', 'HomeController@index');
 Route::get('/article/index', 'ArticleController@index');
 Route::get('/article/{article}', 'ArticleController@show');
-
+Route::get('/article/edit/{id}');
