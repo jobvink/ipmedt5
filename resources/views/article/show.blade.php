@@ -15,7 +15,7 @@
             </thead>
             <tbody>
             @foreach($article->products as $product)
-                <tr class='clickable-row' data-href='/article/edit/{{$article->id}}'>
+                <tr class='clickable-row' data-href='/article/{{$article->id}}/edit'>
                     <td>{{$product->id}}</td>
                     <td>{{$product->stock}}</td>
                     <td>{{$product->size}}</td>

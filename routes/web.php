@@ -15,6 +15,12 @@ use App\Product;
 use App\Rack;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+Route::get('/', function () {
+    return view('demo');
+});
+Route::get('/logout', function() {
+    return view('logout');
+});
 Route::get('/rack', 'RackController@index');
 Route::get('/products/{product}', 'ProductController@show');
 Route::post('/rack/update', 'RackController@update');
@@ -25,7 +31,6 @@ Route::get('/article/create', 'ArticleController@create');
 Route::post('/article/store', 'ArticleController@store');
 Route::get('/home', 'HomeController@index');
 Route::get('/article/index', 'ArticleController@index');
-Route::get('/article/edit/{id}', 'ArticleController@edit');
+Route::get('/article/{id}/edit', 'ArticleController@edit');
 Route::get('/article/{article}', 'ArticleController@show');
 Route::patch('/article/{id}', 'ArticleController@update');
-
