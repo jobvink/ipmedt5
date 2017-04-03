@@ -24,6 +24,8 @@
     {{--Navigatie (header) in nav.blade gezet en wordt op elke pagina geinclude--}}
     @include('layouts.nav')
 
+        @yield('demo')
+
     {{--Alle 'content' sections worden hierdoor uitgelijnd--}}
         <div class="container">
             @yield('content')
@@ -35,6 +37,7 @@
     {{--'articletable' section in article/show.blade--}}
         @yield('articletable')
 
+        @yield('logout')
     {{--Footer in includes in footer.blade en wordt in elke pagina geinclude--}}
     {{--@include('includes.footer')--}}
 

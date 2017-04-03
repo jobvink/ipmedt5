@@ -5,6 +5,7 @@
         <h2>Productnaam: {{$article->name}}</h2>
         <h4>Article number: {{$article->id}}</h4>
         <h4>Article description: {{$article->description}}</h4>
+
         <form method="POST" action="/product/{{$article->id}}/edit">
             {{method_field('PATCH')}}
             {{csrf_field()}}
@@ -15,13 +16,14 @@
                     <th>In stock:</th>
                     <th>Size:</th>
                     <th>Actie:</th>
+
                 </tr>
                 </thead>
 
                 <tbody>
 
                 @foreach($article->products as $product)
-                    <tr class='clickable-row' data-href='/article/edit/{{$article->id}}'>
+                    <tr class='clickable-row' data-href='/article/{{$article->id}}/edit'>
                         <td>{{$product->id}}</td>
                         <td>
                             <label for="{{$product->id}}" hidden id="{{$product->id}}"></label>
