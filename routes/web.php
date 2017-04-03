@@ -35,3 +35,4 @@ Route::get('/article/{id}/edit', 'ArticleController@edit');
 Route::get('/article/{article}', 'ArticleController@show');
 Route::patch('/article/{id}', 'ArticleController@update');
 Route::patch('/product/{article}/edit', 'ProductController@update');
+Route::delete('/article/{id}', 'ArticleController@destroy');

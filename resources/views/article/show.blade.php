@@ -5,7 +5,14 @@
         <h2>Productnaam: {{$article->name}}</h2>
         <h4>Article number: {{$article->id}}</h4>
         <h4>Article description: {{$article->description}}</h4>
-
+        <div class="list-group">
+            <a class="btn btn-primary" href="/article/{{$article->id}}/edit" role="button">Aanpassen</a>
+        </div>
+        <form class="list-group" method="POST" action="/article/{{$article->id}}">
+            {{method_field("DELETE")}}
+            {{csrf_field()}}
+            <button class="btn btn-danger" type="submit">Verwijder</button>
+        </form>
         <form method="POST" action="/product/{{$article->id}}/edit">
             {{method_field('PATCH')}}
             {{csrf_field()}}
@@ -15,7 +22,6 @@
                     <th>Barcode:</th>
                     <th>In stock:</th>
                     <th>Size:</th>
-                    <th>Actie:</th>
 
                 </tr>
                 </thead>
@@ -23,14 +29,13 @@
                 <tbody>
 
                 @foreach($article->products as $product)
-                    <tr class='clickable-row' data-href='/article/{{$article->id}}/edit'>
+                    <tr data-href='/article/{{$article->id}}/edit'>
                         <td>{{$product->id}}</td>
                         <td>
                             <label for="{{$product->id}}" hidden id="{{$product->id}}"></label>
                             <input type="number" value="{{$product->stock}}" class="form-control" id="{{$product->id}}" name="{{$product->id}}">
                         </td>
                         <td>{{$product->size}}</td>
-                        <td><a class="btn btn-primary" href="/article/{{$article->id}}/edit" role="button">Aanpassen</a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -115,13 +120,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
-        jQuery(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
-            });
-        });
-    </script>
     <script type="text/javascript">
         google.charts.load('current', {packages: ['corechart', 'bar']});
         google.charts.setOnLoadCallback(drawBasic);

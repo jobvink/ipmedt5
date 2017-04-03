@@ -47,28 +47,28 @@ class ArticleController extends Controller
         ]);
         $article->products()->create([
             'size' => 'XS',
-            'stock' => $request->stck_xs,
-            'id' => $request->id_xs,
+            'stock' => $request->stck_XS,
+            'id' => $request->id_XS,
         ]);
         $article->products()->create([
             'size' => 'S',
-            'stock' => $request->stck_s,
-            'id' => $request->id_s,
+            'stock' => $request->stck_S,
+            'id' => $request->id_S,
         ]);
         $article->products()->create([
             'size' => 'M',
-            'stock' => $request->stck_m,
-            'id' => $request->id_m,
+            'stock' => $request->stck_M,
+            'id' => $request->id_M,
         ]);
         $article->products()->create([
             'size' => 'L',
-            'stock' => $request->stck_l,
-            'id' => $request->id_l,
+            'stock' => $request->stck_L,
+            'id' => $request->id_L,
         ]);
         $article->products()->create([
             'size' => 'XL',
-            'stock' => $request->stck_xl,
-            'id' => $request->id_xl,
+            'stock' => $request->stck_XL,
+            'id' => $request->id_XL,
         ]);
         return redirect('/article/index');
     }
@@ -101,8 +101,10 @@ class ArticleController extends Controller
     public function edit($id)
     {
         //
+
         $article = Article::find($id);
-        return view('article.edit', compact('article'));
+        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        return view('article.edit', compact('article', 'sizes'));
     }
 
     /**
@@ -119,31 +121,31 @@ class ArticleController extends Controller
         $article->name = $request->name;
         $article->description = $request->description;
         $article->save();
-        $xs = new Product;
-        $xs->size = "XS";
-        $xs->stock = $request->stck_xs;
-        $xs->id = $request->id_xs;
-        $article->products()->save($xs);
-        $s = new Product;
-        $s->size = "S";
-        $s->stock = $request->stck_s;
-        $s->id = $request->id_s;
-        $article->products()->save($s);
-        $m = new Product;
-        $m->size = "M";
-        $m->stock = $request->stck_m;
-        $m->id = $request->id_m;
-        $article->products()->save($m);
-        $l = new Product;
-        $l->size = "L";
-        $l->stock = $request->stck_l;
-        $l->id = $request->id_l;
-        $article->products()->save($l);
-        $xl = new Product;
-        $xl->size = "XL";
-        $xl->stock = $request->stck_xl;
-        $xl->id = $request->id_xl;
-        $article->products()->save($xl);
+        $XS = Product::find($request->id_old_XS);
+        $XS->size = "XS";
+        $XS->stock = $request->stck_XS;
+        $XS->id = $request->id_XS;
+        $article->products()->save($XS);
+        $S = Product::find($request->id_old_S);
+        $S->size = "S";
+        $S->stock = $request->stck_S;
+        $S->id = $request->id_S;
+        $article->products()->save($S);
+        $M = Product::find($request->id_old_M);
+        $M->size = "M";
+        $M->stock = $request->stck_M;
+        $M->id = $request->id_M;
+        $article->products()->save($M);
+        $L = Product::find($request->id_old_L);
+        $L->size = "L";
+        $L->stock = $request->stck_L;
+        $L->id = $request->id_L;
+        $article->products()->save($L);
+        $XL = Product::find($request->id_old_XL);
+        $XL->size = "XL";
+        $XL->stock = $request->stck_XL;
+        $XL->id = $request->id_XL;
+        $article->products()->save($XL);
         return redirect('/article/index');
     }
 
@@ -157,5 +159,6 @@ class ArticleController extends Controller
     {
         //
         Article::destroy($id);
+        return redirect('/article/index');
     }
 }
