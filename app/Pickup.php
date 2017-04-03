@@ -14,12 +14,14 @@ class Pickup extends Model
      * @return array
      */
     public static function years(){
-        return static::selectRaw('year(created_at) years')
+        $years = static::selectRaw('year(created_at) years')
             ->distinct()
             ->orderBy('years', 'desc')
             ->get()
             ->pluck('years')
             ->toArray();
+        sort($years);
+        return $years;
     }
 
     /**
@@ -38,9 +40,9 @@ class Pickup extends Model
             ->pluck('months')
             ->toArray();
         // deze loop vertaald de array met maandgetallen naar een array met maandnamen
-        for ($i = 0; $i < count($months); $i++){
-            $months[$i] = self::toMonthName($months[$i]);
-        }
+//        for ($i = 0; $i < count($months); $i++){
+//            $months[$i] = self::toMonthName($months[$i]);
+//        }
         return $months;
     }
 
@@ -48,12 +50,16 @@ class Pickup extends Model
      * deze functie haalt de statistieken van een bepaalde maand op bij een article
      *
      * @param int $year Jaar van de data
-     * @param int $month Maand van de data
+     * @param mixed $month Maand van de data
      * @param int $article Het articlenumer van de data
      * @return array
      */
     public static function statistics($year, $month, $article){
+        if (!is_int($month)){
+            $month = self::toMonthNumber($month);
+        }
         $month = Carbon::parse($year . '-' . $month . '-01 00:00:00'); // geeft een bruikbare format
+
         // statistics haalt de statistieken uit de database op
         $statistics = DB::select(DB::raw('
         SELECT products.size AS maat, COUNT(*) AS aantal
@@ -63,18 +69,28 @@ class Pickup extends Model
             AND articles.id='. $article . '
             AND pickups.created_at BETWEEN \''. $month . '\' AND \'' . $month->addMonth() . '\'
         GROUP BY products.size
-        ORDER BY find_in_set(products.size, \'XS,S,M,L,XL\')'));
+        ORDER BY find_in_set(products.size, \'XS,S,M,L,XL\')
+        '));
         // deze loop converteerd de variable statestieken naar een beter bruikbaare array
         for ($i = 0; $i < count($statistics); $i++){
             $e = (Array)$statistics[$i];
             unset($statistics[$i]);
             $statistics[$e['maat']] = $e['aantal'];
         }
+        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        for ($i = 0; $i< count($sizes); $i++){
+            if( in_array($sizes[$i], array_keys($statistics))){
+                continue;
+            } else {
+                $statistics[$sizes[$i]] = 0;
+            }
+
+        }
         return $statistics;
     }
 
     // deze functie neemt een getal en vertaald deze naar een maandnaam.
-    private static function toMonthName($month){
+    public static function toMonthName($month){
         switch ($month){
             case 1:
                 return 'Jannuari';
@@ -177,6 +193,61 @@ class Pickup extends Model
                 break;
             default:
                 throw new \Exception('Geen getal bij maand');
+        }
+    }
+
+    public function toMonthNameSmall($month){
+        switch ($month) {
+            case 'Jannuari':
+            case 'jannuari':
+                return 'Jan';
+                break;
+            case 'Februari':
+            case 'februari':
+                return 'Feb';
+                break;
+            case 'Maart':
+            case 'maart':
+                return 'Mrt';
+                break;
+            case 'April':
+            case 'april':
+                return 'Apr';
+                break;
+            case 'Mei':
+            case 'mei':
+                return 'Mei';
+                break;
+            case 'Juni':
+            case 'juni':
+                return 'Jun';
+                break;
+            case 'Juli':
+            case 'juli':
+                return 'Jul';
+                break;
+            case 'Augustus':
+            case 'augustus':
+                return 'Aug';
+                break;
+            case 'September':
+            case 'september':
+                return 'Sep';
+                break;
+            case 'Oktober':
+            case 'oktober':
+                return 'okt';
+                break;
+            case 'November':
+            case 'november':
+                return 'Nov';
+                break;
+            case 'December':
+            case 'december':
+                return 'Dec';
+                break;
+            default:
+                throw new \Exception('Geen kleine naam bij maand');
         }
     }
 }

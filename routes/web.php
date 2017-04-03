@@ -28,4 +28,5 @@ Route::get('/article/index', 'ArticleController@index');
 Route::get('/article/edit/{id}', 'ArticleController@edit');
 Route::get('/article/{article}', 'ArticleController@show');
 Route::patch('/article/{id}', 'ArticleController@update');
+Route::patch('/product/{article}/edit', 'ProductController@update');
 

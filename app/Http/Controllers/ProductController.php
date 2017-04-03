@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -68,9 +69,15 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Article $article)
     {
         //
+        $products = $article->products;
+        foreach ($products as $product){
+            $product->stock = request($product->id);
+            $product->save();
+        }
+        return redirect('/article/' . $article->id);
     }
 
     /**

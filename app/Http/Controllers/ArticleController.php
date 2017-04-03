@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Pickup;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -81,8 +82,14 @@ class ArticleController extends Controller
     public function show($id)
     {
         //
-       $article = Article::find($id);
-        return view('article.show', compact('article'));
+        $pickups = [];
+        foreach (Pickup::years() as $year){
+            foreach (Pickup::months($year) as $month){
+                $pickups[$year][$month] = Pickup::statistics($year, $month, $id);
+            }
+        }
+        $article = Article::find($id);
+        return view('article.show', compact('article', 'pickups'));
     }
 
     /**

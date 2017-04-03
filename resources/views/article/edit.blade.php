@@ -25,7 +25,7 @@
         <br>
         <h3>Artikelen op voorraad:</h3>
         <h4>Maat:</h4>
-        <h1>{{$article->products()->where('size', 'XS')->get()->first()->id}}</h1>
+{{--        <h1>{{$article->products()->where('size', 'XS')->get()->first()->id}}</h1>--}}
         <div class="form-inline">
             <label for="" class="col-sm-2 col-form-label">XS</label>
             <input type="number" min="0" value="{{$article->products()->where('size', 'XS')->get()->first()->stock}}" class="form-control col-4" id="stck_xs" name="stck_xs">
