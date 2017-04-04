@@ -24,6 +24,7 @@
     {{--Navigatie (header) in nav.blade gezet en wordt op elke pagina geinclude--}}
     @include('layouts.nav')
 
+    {{--Demo.blade toegevoegd --> welkomstbericht--}}
         @yield('demo')
 
     {{--Alle 'content' sections worden hierdoor uitgelijnd--}}
