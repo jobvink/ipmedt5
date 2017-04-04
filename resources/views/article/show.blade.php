@@ -40,7 +40,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-success">bevestig</button>
+            <button type="submit" class="btn btn-success">Bevestig</button>
         </form>
 
         <div class="row" style="margin-top: 5%;">
