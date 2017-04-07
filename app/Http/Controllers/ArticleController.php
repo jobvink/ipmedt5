@@ -83,8 +83,8 @@ class ArticleController extends Controller
     {
         //
         $pickups = [];
-        foreach (Pickup::years() as $year){
-            foreach (Pickup::months($year) as $month){
+        foreach (Pickup::years($id) as $year){
+            foreach (Pickup::months($year, $id) as $month){
                 $pickups[$year][$month] = Pickup::statistics($year, $month, $id);
             }
         }

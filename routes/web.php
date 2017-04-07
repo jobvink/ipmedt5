@@ -13,10 +13,12 @@
 
 use App\Product;
 use App\Rack;
+use App\Article;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 Route::get('/', function () {
-    return view('demo');
+    $products = Product::all();
+    return view('demo', compact('products'));
 });
 Route::get('/logout', function() {
     return view('logout');

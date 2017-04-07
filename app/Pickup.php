@@ -11,10 +11,14 @@ class Pickup extends Model
     /**
      * deze functie geeft een array van alle jaren terug waar data van verzameld is
      *
+     * @param $id int
      * @return array
      */
-    public static function years(){
-        $years = static::selectRaw('year(created_at) years')
+    public static function years($id){
+        $years = static::selectRaw('year(pickups.created_at) years')
+            ->join('products', 'pickups.product_id', '=', 'products.id')
+            ->join('articles', 'products.article_id', '=', 'articles.id')
+            ->where('articles.id', $id)
             ->distinct()
             ->orderBy('years', 'desc')
             ->get()
@@ -28,22 +32,21 @@ class Pickup extends Model
      * deze functie geeft alle maanden van een jaar terug waar data van verzameld is
      *
      * @param int $year
+     * @param $id int
      * @return array
      */
-    public static function months($year){
+    public static function months($year, $id){
         // months haalt een array met maandgetallen op
-        $months = static::selectRaw('month(created_at) months')
-            ->where('created_at', '>=', Carbon::parse($year . '-01-01 00:00:00'))
+        return static::selectRaw('month(pickups.created_at) months')
+            ->join('products', 'pickups.product_id', '=', 'products.id')
+            ->join('articles', 'products.article_id', '=', 'articles.id')
+            ->where('articles.id', $id)
+            ->where('pickups.created_at', '>=', Carbon::parse($year . '-01-01 00:00:00'))
             ->distinct()
             ->orderBy('months', 'asc')
             ->get()
             ->pluck('months')
             ->toArray();
-        // deze loop vertaald de array met maandgetallen naar een array met maandnamen
-//        for ($i = 0; $i < count($months); $i++){
-//            $months[$i] = self::toMonthName($months[$i]);
-//        }
-        return $months;
     }
 
     /**

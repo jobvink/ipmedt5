@@ -43,6 +43,7 @@
             <button type="submit" class="btn btn-success">Bevestig</button>
         </form>
 
+        @if(count($pickups))
         <div class="row" style="margin-top: 5%;">
             <div class="col-xl-12 col-md-12">
                 <div id="chart_div"></div>
@@ -112,6 +113,7 @@
                 </form>
             </div>
         </div>
+        @endif
     </div>
     <footer style="height: 100px;"></footer>
 @endsection
