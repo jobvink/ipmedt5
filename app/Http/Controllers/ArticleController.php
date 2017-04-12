@@ -45,31 +45,6 @@ class ArticleController extends Controller
             'name' => $request->name,
             'description' => $request->description,
         ]);
-        $article->products()->create([
-            'size' => 'XS',
-            'stock' => $request->stck_XS,
-            'id' => $request->id_XS,
-        ]);
-        $article->products()->create([
-            'size' => 'S',
-            'stock' => $request->stck_S,
-            'id' => $request->id_S,
-        ]);
-        $article->products()->create([
-            'size' => 'M',
-            'stock' => $request->stck_M,
-            'id' => $request->id_M,
-        ]);
-        $article->products()->create([
-            'size' => 'L',
-            'stock' => $request->stck_L,
-            'id' => $request->id_L,
-        ]);
-        $article->products()->create([
-            'size' => 'XL',
-            'stock' => $request->stck_XL,
-            'id' => $request->id_XL,
-        ]);
         return redirect('/article/index');
     }
 
@@ -89,7 +64,9 @@ class ArticleController extends Controller
             }
         }
         $article = Article::find($id);
-        return view('article.show', compact('article', 'pickups'));
+        $products = $article->products;
+        dd($products->first()->id);
+        return view('article.show', compact('article', 'pickups', 'products'));
     }
 
     /**
@@ -101,9 +78,7 @@ class ArticleController extends Controller
     public function edit($id)
     {
         //
-
         $article = Article::find($id);
-        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
         return view('article.edit', compact('article', 'sizes'));
     }
 
@@ -117,35 +92,9 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::find($id);
-        $article->id = $request->id;
-        $article->name = $request->name;
-        $article->description = $request->description;
+        $article->name = request('name');
+        $article->description = request('description');
         $article->save();
-        $XS = Product::find($request->id_old_XS);
-        $XS->size = "XS";
-        $XS->stock = $request->stck_XS;
-        $XS->id = $request->id_XS;
-        $article->products()->save($XS);
-        $S = Product::find($request->id_old_S);
-        $S->size = "S";
-        $S->stock = $request->stck_S;
-        $S->id = $request->id_S;
-        $article->products()->save($S);
-        $M = Product::find($request->id_old_M);
-        $M->size = "M";
-        $M->stock = $request->stck_M;
-        $M->id = $request->id_M;
-        $article->products()->save($M);
-        $L = Product::find($request->id_old_L);
-        $L->size = "L";
-        $L->stock = $request->stck_L;
-        $L->id = $request->id_L;
-        $article->products()->save($L);
-        $XL = Product::find($request->id_old_XL);
-        $XL->size = "XL";
-        $XL->stock = $request->stck_XL;
-        $XL->id = $request->id_XL;
-        $article->products()->save($XL);
         return redirect('/article/index');
     }
 

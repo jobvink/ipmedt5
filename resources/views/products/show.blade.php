@@ -28,7 +28,7 @@
 
                 <tbody>
 
-                @foreach($products as $product)
+                @foreach($article->products as $product)
                     <tr data-href='/article/{{$article->id}}/edit'>
                         <td>{{$product->id}}</td>
                         <td>
