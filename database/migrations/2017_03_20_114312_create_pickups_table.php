@@ -15,7 +15,7 @@ class CreatePickupsTable extends Migration
     {
         Schema::create('pickups', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('product_id');
+            $table->string('product_id');
 //            $table->foreign('barcode')->references('barcode')->on('products');
             $table->timestamps();
         });

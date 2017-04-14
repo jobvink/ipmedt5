@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +31,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        return view('products.create', compact('sizes'));
     }
 
     /**
@@ -37,6 +44,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+
+        $this->validate(request(), [
+            'id' => 'required|numeric|unique:products,id',
+            'article_id' => 'required|exists:articles,id',
+            'size' => 'required',
+            'stock' => 'required|numeric'
+        ]);
+
+        Product::create(request(['article_id', 'id', 'size', 'stock']));
+        return redirect('/article/' . request('article_id'));
     }
 
     /**
@@ -48,7 +65,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
-        return $product;
+        //return $product;
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -60,6 +78,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        return view('products.edit', compact('product', 'sizes'));
     }
 
     /**
@@ -69,15 +89,21 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
         //
-        $products = $article->products;
-        foreach ($products as $product){
-            $product->stock = request($product->id);
-            $product->save();
-        }
-        return redirect('/article/' . $article->id);
+        $this->validate(request(), [
+            'id' => 'required|numeric|unique:products,id',
+            'article_id' => 'required|exists:articles,id',
+            'size' => 'required',
+            'stock' => 'required|numeric'
+        ]);
+
+        $product = Product::find($id);
+        $product->size = request('size');
+        $product->stock = request('stock');
+        $product->save();
+        return redirect('/article/' . $product->article->id);
     }
 
     /**
@@ -89,5 +115,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        $id = $product->article_id;
+        Product::destroy($product->id);
+        return redirect('/article/' . $id);
     }
 }

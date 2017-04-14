@@ -16,7 +16,7 @@ class CreateTriesTable extends Migration
         Schema::create('tries', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('date');
-            $table->bigInteger('product_id');
+            $table->string('product_id');
 //            $table->foreign('barcode')->references('barcode')->on('products');
             $table->timestamps();
         });

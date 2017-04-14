@@ -4,7 +4,7 @@
     <h2>Voeg een product toe:</h2>
     <br>
     <form method="POST" action="/article/{{$article->id}}">
-        {{method_field('PATCH')}}
+        {{ method_field('PATCH') }}
         {{ csrf_field() }}
         <div class="form-group">
             <label for="id">Atriclenummer:</label>
@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="description" value="{{$article->description}}" name="description">
         </div>
         <br>
-        <button type="submit" class="btn btn-default">Pas het product aan</button>
+        <button type="submit" class="btn btn-default">Pas het article aan</button>
     </form>
     <footer style="height: 100px;"></footer>
 

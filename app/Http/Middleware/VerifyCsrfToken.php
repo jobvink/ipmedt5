@@ -12,7 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        '/rack/update',
-        '/rack/destroy'
+        'api/rack/update',
+        'api/rack/destroy'
     ];
 }

@@ -30,13 +30,24 @@ Route::post('/rack/destroy', 'RackController@destroy');
 Route::get('/rack/{rack}', 'RackController@show');
 Auth::routes();
 
-Route::get('/article/create', 'ArticleController@create');
-Route::post('/article/store', 'ArticleController@store');
-Route::get('/article/index', 'ArticleController@index');
-Route::get('/article/{id}/edit', 'ArticleController@edit');
-Route::get('/article/{article}', 'ArticleController@show');
-Route::patch('/article/{id}', 'ArticleController@update');
-Route::delete('/article/{id}', 'ArticleController@destroy');
+Route::group(['prefix' => 'products'], function (){
+    Route::get('/create', 'ProductController@create');
+    Route::post('/store', 'ProductController@store');
+    Route::get('/index', 'ProductController@index');
+    Route::get('/{product}/edit', 'ProductController@edit');
+    Route::get('/{product}', 'ProductController@show');
+    Route::patch('/{id}', 'ProductController@update');
+    Route::delete('/{product}', 'ProductController@destroy');
+});
 
-Route::patch('/product/{article}/edit', 'ProductController@update');
-Route::get('/products/{product}', 'ProductController@show');
+Route::group(['prefix' => 'article'], function (){
+    Route::get('/create', 'ArticleController@create');
+    Route::post('/store', 'ArticleController@store');
+    Route::get('/index', 'ArticleController@index');
+    Route::get('/{id}/edit', 'ArticleController@edit');
+    Route::get('/{article}', 'ArticleController@show');
+    Route::patch('/{id}', 'ArticleController@update');
+    Route::delete('/{id}', 'ArticleController@destroy');
+});
+
+

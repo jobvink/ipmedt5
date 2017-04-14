@@ -3,29 +3,30 @@
 @section('content')
     <h2>Voeg een product toe:</h2>
     <br>
-    <form method="POST" action="/article/{{$article->id}}">
-        {{method_field('PATCH')}}
+    <form method="POST" action="/products/{{$product->id}}">
         {{ csrf_field() }}
-        @foreach($sizes as $size)
-            @if(count($article->products()->where('size', $size)->get()->first()))
-                <div class="form-inline">
-                    <label for="id_{{$size}}" class="col-sm-2 col-form-label">{{$size}}</label>
-                    <input hidden value="{{$article->products()->where('size', $size)->get()->first()->id}}" id="id_old_{{$size}}" name="id_old_{{$size}}">
-                    <input type="number" min="0" value="{{$article->products()->where('size', $size)->get()->first()->stock}}" class="form-control col-4" id="stck_{{$size}}" name="stck_{{$size}}">
-                    <input type="number" min="0" max="9999999999999" value="{{$article->products()->where('size', $size)->get()->first()->id}}" class="form-control col-4" id="id_{{$size}}" name="id_{{$size}}">
-                </div>
-            @else
-                <div class="form-inline">
-                    <label for="id_{{$size}}" class="col-sm-2 col-form-label">{{$size}}</label>
-                    <input hidden id="id_old_{{$size}}" name="id_old_{{$size}}">
-                    <input type="number" min="0" class="form-control col-4" id="stck_{{$size}}" name="stck_{{$size}}">
-                    <input type="number" min="0" max="9999999999999" class="form-control col-4" id="id_{{$size}}" name="id_{{$size}}">
-                </div>
-            @endif
-        @endforeach
-        <br>
-        <button type="submit" class="btn btn-default">Pas het product aan</button>
-    </form>
-    <footer style="height: 100px;"></footer>
+        {{method_field('PATCH')}}
+        <div class="form-group">
+            <div class="form-group">
+                <label for="article_id" >Atriclenummer:</label>
+                <input type="number" value="{{$product->article_id}}" class="form-control" id="article_id" name="article_id">
+            </div>
+            <div class="form-group">
+                <label for="id" >Barcode:</label>
+                <input min="0" max="9999999999999" value="{{$product->id}}"  class="form-control" id="id" name="id">
+            </div>
+            <label for="size" >Maat:</label>
+            <div class="form-group">
+                <select class="form-control" id="size" name="size">
+                    @foreach($sizes as $size)
+                        <option>{{$size}}</option>
+                    @endforeach
+                </select>
+            </div>
 
+            <label for="article_id" >Aantal op voorraad:</label>
+            <input type="number" min="0" value="{{$product->stock}}" class="form-control" id="stock" name="stock">
+        </div>
+        <button type="submit" class="btn btn-default">Voeg product toe</button>
+    </form>
 @endsection

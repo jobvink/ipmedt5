@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     //
-    protected $fillable = ['id', 'size', 'stock'];
+    protected $fillable = ['id', 'size', 'stock', 'article_id'];
+    public $incrementing = false;
 
 
     public function racks()

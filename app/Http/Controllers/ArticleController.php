@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +46,12 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         // deze functie vangt het article op en bewaart het in de database.
+        $this->validate(request(), [
+            'id' => 'required|numeric|unique:articles,id',
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
         $article = Article::create([
             'id' => $request->id,
             'name' => $request->name,
@@ -65,7 +77,6 @@ class ArticleController extends Controller
         }
         $article = Article::find($id);
         $products = $article->products;
-        dd($products->first()->id);
         return view('article.show', compact('article', 'pickups', 'products'));
     }
 
@@ -91,6 +102,12 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate(request(), [
+            'id' => 'required|numeric|unique:articles,id',
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
         $article = Article::find($id);
         $article->name = request('name');
         $article->description = request('description');

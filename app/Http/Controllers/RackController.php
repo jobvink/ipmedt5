@@ -99,4 +99,8 @@ class RackController extends Controller
         $rack->products()->detach($data['barcode']);
         return $data;
     }
+
+    public function showJson(Product $product){
+        return $product;
+    }
 }

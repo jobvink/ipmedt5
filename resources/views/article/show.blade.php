@@ -5,23 +5,27 @@
         <h2>Productnaam: {{$article->name}}</h2>
         <h4>Article number: {{$article->id}}</h4>
         <h4>Article description: {{$article->description}}</h4>
-        <div class="list-group">
-            <a class="btn btn-primary" href="/article/{{$article->id}}/edit" role="button">Aanpassen</a>
-        </div>
-        <form class="list-group" method="POST" action="/article/{{$article->id}}">
-            {{method_field("DELETE")}}
-            {{csrf_field()}}
-            <button class="btn btn-danger" type="submit">Verwijder</button>
-        </form>
-        <form method="POST" action="/product/{{$article->id}}/edit">
-            {{method_field('PATCH')}}
-            {{csrf_field()}}
-            <table class="table table-striped table-bordered table-hover">
+        <ul class="list-inline">
+            <li>
+                <div class="list-group">
+                    <a class="btn btn-primary" href="/article/{{$article->id}}/edit" role="button">Aanpassen</a>
+                </div>
+            </li>
+            <li>
+                <form class="list-group" method="POST" action="/article/{{$article->id}}">
+                    {{method_field("DELETE")}}
+                    {{csrf_field()}}
+                    <button class="btn btn-danger" type="submit">Verwijderen</button>
+                </form>
+            </li>
+        </ul>
+        <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>Barcode:</th>
                     <th>In stock:</th>
                     <th>Size:</th>
+                    <th>Opcties:</th>
 
                 </tr>
                 </thead>
@@ -32,17 +36,37 @@
                     <tr data-href='/article/{{$article->id}}/edit'>
                         <td>{{$product->id}}</td>
                         <td>
-                            <label for="{{$product->id}}" hidden id="{{$product->id}}"></label>
-                            <input type="number" value="{{$product->stock}}" class="form-control" id="{{$product->id}}" name="{{$product->id}}">
+                            <form class="form-inline" method="POST" action="/products/{{$product->id}}">
+                                {{ csrf_field() }}
+                                {{method_field("PATCH")}}
+                                <input hidden id="id" name="id" value="{{$product->id}}"/>
+                                <input type="number" value="{{$product->stock}}" class="form-control" id="stock" name="stock">
+                                <input hidden id="size" name="size" value="{{$product->size}}">
+                                <button class="btn btn-success" type="submit">Pas voorraad aan</button>
+                            </form>
                         </td>
                         <td>{{$product->size}}</td>
+                        <td>
+                            <ul class="list-inline">
+                                <li>
+                            <a class="btn btn-primary" href="/products/{{$product->id}}/edit" role="button">aanpassen</a>
+                                </li>
+                                <li>
+                                    <form method="POST" action="/products/{{$product->id}}">
+                                    {{method_field("DELETE")}}
+                                    {{csrf_field()}}
+                                    <button class="btn btn-danger" type="submit">Verwijderen</button>
+                                </form>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-success">Bevestig</button>
-        </form>
-
+        <div class="list-group">
+            <a class="btn btn-primary" href="/products/create" role="button">Voeg een product toe</a>
+        </div>
         @if(count($pickups))
         <div class="row" style="margin-top: 5%;">
             <div class="col-xl-12 col-md-12">
@@ -83,31 +107,12 @@
 
                                     @foreach(array_keys($pickups[$year]) as $month)
 
-                                        <option value="{{$iter}}">{{$year . ' - ' . \App\Pickup::toMonthName($month)}}</option>
+                                        <option id="pickup-eind-{{$iter}}" value="{{$iter}}">{{$year . ' - ' . \App\Pickup::toMonthName($month)}}</option>
                                         {{$iter++}}
                                     @endforeach
 
                                 @endforeach
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-md-4">
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-                                <input type="checkbox">XS
-                            </label>
-                            <label class="btn btn-primary active">
-                                <input type="checkbox">S
-                            </label>
-                            <label class="btn btn-primary  active">
-                                <input type="checkbox">M
-                            </label>
-                            <label class="btn btn-primary active">
-                                <input type="checkbox">L
-                            </label>
-                            <label class="btn btn-primary active">
-                                <input type="checkbox">XL
-                            </label>
                         </div>
                     </div>
                 </form>
@@ -200,21 +205,6 @@
 
             data.addRows(pickups);
 
-//            data.addRows([
-//                ['Jannuari', 3, 2, 1],
-//                ['Februari', 1, 3, 7],
-//                ['Maart', 1, 4, 4],
-//                ['April', 1, 1, 2],
-//                ['Mei', 2, 4, 1],
-//                ['Juni', 3, 2, 1],
-//                ['Juli', 1, 3, 7],
-//                ['Augustus', 1, 4, 4],
-//                ['September', 1, 1, 2],
-//                ['Oktober', 2, 4, 1],
-//                ['November', 3, 2, 1],
-//                ['December', 1, 3, 7],
-//            ]);
-
             var options = {
                 hAxis: {
                     title: 'Maanden'
@@ -243,8 +233,6 @@
             var pickupsEind = document.getElementById('pickup-eind');
 
             pickupsBegin.onchange = function () {
-//                console.log(rowSet(pickupsBegin.value, pickupsEind.value));
-//                console.log(pickupsBegin.value);
                 view = new google.visualization.DataView(data);
                 view.setRows(rowSet(pickupsBegin.value, pickupsEind.value));
                 chart.draw(view, options);
@@ -260,16 +248,10 @@
                 console.log('test');
             };
 
-//            $('#pickup-form').find('checkbox').change(function() {
-//                console.log('test');
-//                if (this.checked) {
-//                    console.log('test');
-//                } else {
-//                    // the checkbox is now no longer checked
-//                }
-//            });
-
         }
+
+        $('#pickup-eind-@if(isset($iter)){{$iter-1}}@endif').prop('selected', true);
+
     </script>
 
 @endsection
