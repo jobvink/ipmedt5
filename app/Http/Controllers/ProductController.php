@@ -29,10 +29,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Article $article)
     {
         $sizes = ['XS', 'S', 'M', 'L', 'XL'];
-        return view('products.create', compact('sizes'));
+        return view('products.create', compact('sizes', 'article'));
     }
 
     /**
@@ -62,7 +62,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Article $article, Product $product)
     {
         //
         //return $product;
@@ -75,11 +75,11 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Article $article, Product $product)
     {
         //
         $sizes = ['XS', 'S', 'M', 'L', 'XL'];
-        return view('products.edit', compact('product', 'sizes'));
+        return view('products.edit', compact('product', 'sizes', 'article'));
     }
 
     /**
@@ -89,11 +89,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article, $id)
     {
         //
         $this->validate(request(), [
-            'id' => 'required|numeric|unique:products,id',
             'article_id' => 'required|exists:articles,id',
             'size' => 'required',
             'stock' => 'required|numeric'
@@ -112,7 +111,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Article $article, Product $product)
     {
         //
         $id = $product->article_id;

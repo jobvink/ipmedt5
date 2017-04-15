@@ -17,8 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products/{product}', 'RackController@showJson');
-Route::post('/rack/destroy', 'RackController@destroy');
-Route::post('/rack/update', 'RackController@update');
+Route::get('/products/{product}', 'RackController@showJson')->middleware('auth:api');
+Route::post('/rack/destroy', 'RackController@destroy')->middleware('auth:api');
+Route::post('/rack/update', 'RackController@update')->middleware('auth:api');
+
+
 
 

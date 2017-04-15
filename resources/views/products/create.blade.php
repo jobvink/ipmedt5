@@ -3,12 +3,12 @@
 @section('content')
     <h2>Voeg een product toe:</h2>
     <br>
-<form method="POST" action="/products/store">
+<form method="POST" action="/article/{{$article->id}}/products/store">
     {{ csrf_field() }}
     <div class="form-group">
         <div class="form-group">
-        <label for="article_id" >Atriclenummer:</label>
-        <input type="number" placeholder="Article nummer" class="form-control" id="article_id" name="article_id">
+        <label hidden for="article_id" >Atriclenummer:</label>
+        <input hidden type="number" value="{{$article->id}}" id="article_id" name="article_id">
         </div>
         <div class="form-group">
         <label for="id" >Barcode:</label>

@@ -103,12 +103,17 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate(request(), [
-            'id' => 'required|numeric|unique:articles,id',
+            'id' => 'required|numeric',
             'name' => 'required',
             'description' => 'required'
         ]);
 
         $article = Article::find($id);
+        foreach ($article->products as $product){
+            $product->article_id = request('id');
+            $product->save();
+        }
+        $article->id = request('id');
         $article->name = request('name');
         $article->description = request('description');
         $article->save();

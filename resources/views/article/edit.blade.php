@@ -8,7 +8,7 @@
         {{ csrf_field() }}
         <div class="form-group">
             <label for="id">Atriclenummer:</label>
-            <input type="number" min="0" value="{{$article->id}}" class="form-control col-4" id="id">
+            <input type="number" min="0" value="{{$article->id}}" class="form-control col-4" id="id" name="id">
         </div>
         <div class="form-group">
             <label for="name">Productnaam:</label>
@@ -19,6 +19,7 @@
             <input type="text" class="form-control" id="description" value="{{$article->description}}" name="description">
         </div>
         <br>
+        @include('includes.errors')
         <button type="submit" class="btn btn-default">Pas het article aan</button>
     </form>
     <footer style="height: 100px;"></footer>

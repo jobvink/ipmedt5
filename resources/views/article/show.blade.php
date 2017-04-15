@@ -36,9 +36,10 @@
                     <tr data-href='/article/{{$article->id}}/edit'>
                         <td>{{$product->id}}</td>
                         <td>
-                            <form class="form-inline" method="POST" action="/products/{{$product->id}}">
+                            <form class="form-inline" method="POST" action="/article/{{$article->id}}/products/{{$product->id}}">
                                 {{ csrf_field() }}
                                 {{method_field("PATCH")}}
+                                <input hidden id="article_id" name="article_id" value="{{$product->article_id}}">
                                 <input hidden id="id" name="id" value="{{$product->id}}"/>
                                 <input type="number" value="{{$product->stock}}" class="form-control" id="stock" name="stock">
                                 <input hidden id="size" name="size" value="{{$product->size}}">
@@ -49,10 +50,10 @@
                         <td>
                             <ul class="list-inline">
                                 <li>
-                            <a class="btn btn-primary" href="/products/{{$product->id}}/edit" role="button">aanpassen</a>
+                            <a class="btn btn-primary" href="/article/{{$article->id}}/products/{{$product->id}}/edit" role="button">aanpassen</a>
                                 </li>
                                 <li>
-                                    <form method="POST" action="/products/{{$product->id}}">
+                                    <form method="POST" action="/article/{{$article->id}}/products/{{$product->id}}">
                                     {{method_field("DELETE")}}
                                     {{csrf_field()}}
                                     <button class="btn btn-danger" type="submit">Verwijderen</button>
@@ -65,7 +66,7 @@
                 </tbody>
             </table>
         <div class="list-group">
-            <a class="btn btn-primary" href="/products/create" role="button">Voeg een product toe</a>
+            <a class="btn btn-primary" href="/article/{{$article->id}}/products/create" role="button">Voeg een product toe</a>
         </div>
         @if(count($pickups))
         <div class="row" style="margin-top: 5%;">

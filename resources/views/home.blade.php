@@ -18,6 +18,10 @@
                 <div class="panel-heading">
                     <a class="btn btn-primary" href="/article/create" role="button">Add article</a>
                 </div>
+
+                <passport-clients></passport-clients>
+                <passport-authorized-clients></passport-authorized-clients>
+                <passport-personal-access-tokens></passport-personal-access-tokens>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
 @section('content')
     <h2>Voeg een product toe:</h2>
     <br>
-    <form method="POST" action="/products/{{$product->id}}">
+    <form method="POST" action="/article/{{$product->article_id}}/products/{{$product->id}}">
         {{ csrf_field() }}
         {{method_field('PATCH')}}
         <div class="form-group">
@@ -27,6 +27,7 @@
             <label for="article_id" >Aantal op voorraad:</label>
             <input type="number" min="0" value="{{$product->stock}}" class="form-control" id="stock" name="stock">
         </div>
-        <button type="submit" class="btn btn-default">Voeg product toe</button>
+        @include('includes.errors')
+        <button type="submit" class="btn btn-default">Pas product aan</button>
     </form>
 @endsection

@@ -74,7 +74,7 @@ class RackController extends Controller
      * @param  \App\Rack  $rack
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rack $rack)
+    public function update(Request $request)
     {
         // haalt de data in json formaat op en maakt er iets bruikbaars van
         $data = $request->json()->all();
