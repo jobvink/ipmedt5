@@ -2,6 +2,9 @@
 
 @section('articletable')
     <div class="container">
+
+        <a class="btn btn-default" href="/article/index" role="button">Terug naar index</a>
+
         <h2>Productnaam: {{$article->name}}</h2>
         <h4>Article number: {{$article->id}}</h4>
         <h4>Article description: {{$article->description}}</h4>
@@ -69,6 +72,11 @@
             <a class="btn btn-primary" href="/article/{{$article->id}}/products/create" role="button">Voeg een product toe</a>
         </div>
         @if(count($pickups))
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Aantal keren van het rek gehaald:</h1>
+                </div>
+                <div class="panel-body">
         <div class="row" style="margin-top: 5%;">
             <div class="col-xl-12 col-md-12">
                 <div id="chart_div"></div>
@@ -105,13 +113,10 @@
                             <select id="pickup-eind" class="dropdown-menu" style="display: inline !important;">
                                 {{$iter = 0}}
                                 @foreach(array_keys($pickups) as $year)
-
                                     @foreach(array_keys($pickups[$year]) as $month)
-
                                         <option id="pickup-eind-{{$iter}}" value="{{$iter}}">{{$year . ' - ' . \App\Pickup::toMonthName($month)}}</option>
                                         {{$iter++}}
                                     @endforeach
-
                                 @endforeach
                             </select>
                         </div>
@@ -120,6 +125,8 @@
             </div>
         </div>
         @endif
+        </div>
+        </div>
     </div>
     <footer style="height: 100px;"></footer>
 @endsection
@@ -170,11 +177,9 @@
 
 //            data.addColumn('date', 'Maanden');
             data.addColumn('string', 'Maanden');
-            data.addColumn('number', 'XS');
-            data.addColumn('number', 'S');
-            data.addColumn('number', 'M');
-            data.addColumn('number', 'L');
-            data.addColumn('number', 'XL');
+            @foreach($sizes as $size)
+                data.addColumn('number', '{{$size}}');
+            @endforeach
             pickups = [];
             @foreach(array_keys($pickups) as $year)
 
@@ -182,23 +187,26 @@
 
                     year = {{$year}}
                     month = {{$month}}
-                    XS = {{$pickups[$year][$month]['XS']}}
-                    S = {{$pickups[$year][$month]['S']}}
-                    M = {{$pickups[$year][$month]['M']}}
-                    L = {{$pickups[$year][$month]['L']}}
-                    XL = {{$pickups[$year][$month]['XL']}}
+                    {{--XS = {{$pickups[$year][$month]['XS']}}--}}
+                    {{--S = {{$pickups[$year][$month]['S']}}--}}
+                    {{--M = {{$pickups[$year][$month]['M']}}--}}
+                    {{--L = {{$pickups[$year][$month]['L']}}--}}
+                    {{--XL = {{$pickups[$year][$month]['XL']}}--}}
+                    {{--statistics = {--}}
+                        {{--'XS': XS,--}}
+                        {{--'S': S,--}}
+                        {{--'M': M,--}}
+                        {{--'L': L,--}}
+                        {{--'XL': XL--}}
+                    {{--};--}}
                     statistics = {
-                        'XS': XS,
-                        'S': S,
-                        'M': M,
-                        'L': L,
-                        'XL': XL
+                        @foreach($sizes as $size)
+                            '{{$size}}': {{$pickups[$year][$month][$size]}},
+                        @endforeach
                     };
 
-                    {{--pickups.push(month);--}}
-//                    pickups.push(new Date(2001, 10, 1), 1, 1, 1, 1, 1);
-//                    pickups.push([new Date(year, month), statistics['XS'], statistics['S'], statistics['M'], statistics['L'], statistics['XL'],]);
-                    pickups.push([toMonthName(month), statistics['XS'], statistics['S'], statistics['M'], statistics['L'], statistics['XL'],]);
+//            pickups.push([toMonthName(month), statistics['XS'], statistics['S'], statistics['M'], statistics['L'], statistics['XL'],]);
+            pickups.push([toMonthName(month), @foreach($sizes as $size) statistics['{{$size}}'], @endforeach]);
 
                 @endforeach
 

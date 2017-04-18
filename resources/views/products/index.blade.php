@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
+    <a class="btn btn-default" href="/home" role="button">Terug naar het Home</a>
+
     <table id="articles" class="table table-striped table-bordered table-hover">
         <thead>
         <tr>

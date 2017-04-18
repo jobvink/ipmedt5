@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('articletable')
+
+    <a class="btn btn-default" href="/article/index" role="button">Terug naar index</a>
+
     <div class="container">
         <h2>Productnaam: {{$product->name}}</h2>
         <h4>Article number: {{$product->article_id}}</h4>

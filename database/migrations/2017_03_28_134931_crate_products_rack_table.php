@@ -14,9 +14,9 @@ class CrateProductsRackTable extends Migration
     public function up()
     {
         Schema::create('product_rack', function (Blueprint $table) {
-            $table->increments('id');
             $table->string('product_id');
             $table->integer('rack_id');
+            $table->integer('count')->default(0);
         });
     }
 

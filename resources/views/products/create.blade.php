@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <a class="btn btn-default" href="/article/{{$article->id}}" role="button">Terug naar het Artikel</a>
+
     <h2>Voeg een product toe:</h2>
     <br>
 <form method="POST" action="/article/{{$article->id}}/products/store">
@@ -12,7 +15,7 @@
         </div>
         <div class="form-group">
         <label for="id" >Barcode:</label>
-        <input placeholder="Barcode" class="form-control" id="id" name="id">
+        <input placeholder="Barcode" class="form-control" id="id" name="id" required>
         </div>
         <label for="size" >Maat:</label>
         <div class="form-group">
@@ -24,7 +27,7 @@
         </div>
 
         <label for="article_id" >Aantal op voorraad:</label>
-        <input type="number" min="0" placeholder="Voorraad" class="form-control" id="stock" name="stock">
+        <input type="number" min="0" placeholder="Voorraad" class="form-control" id="stock" name="stock" required>
     </div>
 
     @include('includes.errors')

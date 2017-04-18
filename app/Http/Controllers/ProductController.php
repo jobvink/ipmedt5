@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function create(Article $article)
     {
-        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        $sizes = Product::sizes();
         return view('products.create', compact('sizes', 'article'));
     }
 
@@ -46,7 +46,7 @@ class ProductController extends Controller
         //
 
         $this->validate(request(), [
-            'id' => 'required|numeric|unique:products,id',
+            'id' => 'required|numeric|unique:products,id|between:1000000000000,9999999999999',
             'article_id' => 'required|exists:articles,id',
             'size' => 'required',
             'stock' => 'required|numeric'
@@ -78,7 +78,7 @@ class ProductController extends Controller
     public function edit(Article $article, Product $product)
     {
         //
-        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        $sizes = Product::sizes();
         return view('products.edit', compact('product', 'sizes', 'article'));
     }
 

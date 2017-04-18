@@ -61,33 +61,28 @@ class Pickup extends Model
         if (!is_int($month)){
             $month = self::toMonthNumber($month);
         }
-        $month = Carbon::parse($year . '-' . $month . '-01 00:00:00'); // geeft een bruikbare format
-
         // statistics haalt de statistieken uit de database op
-        $statistics = DB::select(DB::raw('
-        SELECT products.size AS maat, COUNT(*) AS aantal
-        FROM articles, products, pickups
-        WHERE products.article_id=articles.id
-            AND pickups.product_id=products.id
-            AND articles.id='. $article . '
-            AND pickups.created_at BETWEEN \''. $month . '\' AND \'' . $month->addMonth() . '\'
-        GROUP BY products.size
-        ORDER BY find_in_set(products.size, \'XS,S,M,L,XL\')
-        '));
+        $statistics = static::selectRaw('products.size AS maat, COUNT(*) AS aantal')
+            ->join('products', 'pickups.product_id', '=', 'products.id')
+            ->join('articles', 'products.article_id', '=', 'articles.id')
+            ->whereBetween('pickups.created_at', [Carbon::parse($year . '-' . $month . '-01 00:00:00'), Carbon::parse($year . '-' . $month . '-01 00:00:00')->addMonth()])
+            ->groupBy('products.size')
+            ->orderBy('products.size')
+            ->get()
+            ->toArray();
         // deze loop converteerd de variable statestieken naar een beter bruikbaare array
         for ($i = 0; $i < count($statistics); $i++){
             $e = (Array)$statistics[$i];
             unset($statistics[$i]);
             $statistics[$e['maat']] = $e['aantal'];
         }
-        $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+        $sizes = Product::sizes();
         for ($i = 0; $i< count($sizes); $i++){
             if( in_array($sizes[$i], array_keys($statistics))){
                 continue;
             } else {
                 $statistics[$sizes[$i]] = 0;
             }
-
         }
         return $statistics;
     }

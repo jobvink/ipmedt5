@@ -77,7 +77,8 @@ class ArticleController extends Controller
         }
         $article = Article::find($id);
         $products = $article->products;
-        return view('article.show', compact('article', 'pickups', 'products'));
+        $sizes = Product::sizes();
+        return view('article.show', compact('article', 'pickups', 'products', 'sizes'));
     }
 
     /**

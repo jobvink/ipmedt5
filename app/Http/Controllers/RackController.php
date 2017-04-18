@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Pickup;
 use App\Rack;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use App\Product;
 
 class RackController extends Controller
@@ -30,6 +32,7 @@ class RackController extends Controller
     public function create()
     {
         //
+        return view('rack.create');
     }
 
     /**
@@ -41,6 +44,8 @@ class RackController extends Controller
     public function store(Request $request)
     {
         //
+        Rack::Create(request(['id', 'description']));
+        return redirect('/rack/index');
     }
 
     /**
@@ -53,7 +58,7 @@ class RackController extends Controller
     {
         //
         $products = $rack->products;
-        return view('rack.show', compact('products'));
+        return view('rack.show', compact('rack', 'products'));
     }
 
     /**
@@ -65,6 +70,7 @@ class RackController extends Controller
     public function edit(Rack $rack)
     {
         //
+        return view('rack.edit', compact('rack'));
     }
 
     /**
@@ -76,13 +82,11 @@ class RackController extends Controller
      */
     public function update(Request $request)
     {
-        // haalt de data in json formaat op en maakt er iets bruikbaars van
-        $data = $request->json()->all();
-        // haalt het rek op uit de database
-        $rack = Rack::find($data['rack']);
-        // koppelt het product aan het rack
-        $rack->products()->attach($data['barcode']);
-        return $rack;
+        $rack = Rack::find(request('id'));
+        $rack->id = request('id');
+        $rack->description = request('description');
+        $rack->save();
+        return redirect('/rack/' . request('id'));
     }
 
     /**
@@ -94,13 +98,53 @@ class RackController extends Controller
     public function destroy(Rack $rack)
     {
         //
-        $data = request()->json()->all();
-        $rack = Rack::find($data['rack']);
-        $rack->products()->detach($data['barcode']);
-        return $data;
+        Rack::destroy($rack->id);
+        return redirect('/rack/index');
     }
 
     public function showJson(Product $product){
         return $product;
     }
+
+    public function syncProducts(Request $request){
+        $data = request()->json()->all();
+        $rack = Rack::find($data['rack']);
+        foreach ($data['barcode'] as $barcode) {
+            if(count($rack->products()->where('products.id', $barcode)->get())){
+//                $rack->products()->updateExistingPivot($barcode, ['count' => $rack->products()->where('product_id', $barcode)->get()->first()->pivot->count + 1]);
+                $rack->incrementCount($barcode);
+            } else {
+                $rack->products()->attach($barcode, ['count' => 1]);
+            }
+        }
+        return $rack->products;
+    }
+
+    public function attach(Request $request){
+        $data = $request->json()->all();
+        $rack = Rack::find($data['rack']);
+        foreach ($data['barcode'] as $barcode) {
+            if(count($rack->products()->where('products.id', $barcode)->get())){
+                $rack->incrementCount($barcode);
+            } else {
+                $rack->products()->attach($barcode, ['count' => 1]);
+            }
+        }
+        return 'attach successful';
+    }
+
+    public function detach(Request $request){
+        $data = $request->json()->all();
+        $rack = Rack::find($data['rack']);
+        foreach ($data['barcode'] as $barcode) {
+            if($rack->count($barcode)>1){
+                $rack->decrementCount($barcode);
+            } else {
+                $rack->products()->detach($barcode);
+            }
+        }
+        return 'detach successful';
+    }
+
+
 }

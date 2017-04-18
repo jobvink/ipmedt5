@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <a class="btn btn-default" href="/article/{{$product->article_id}}" role="button">Terug naar het Artikel</a>
+
     <h2>Voeg een product toe:</h2>
     <br>
     <form method="POST" action="/article/{{$product->article_id}}/products/{{$product->id}}">

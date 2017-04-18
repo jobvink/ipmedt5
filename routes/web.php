@@ -24,13 +24,18 @@ Route::get('/logout', function() {
     return view('logout');
 });
 Route::get('/home', 'HomeController@index');
-Route::get('/rack', 'RackController@index');
-Route::post('/rack/update', 'RackController@update');
-Route::post('/rack/destroy', 'RackController@destroy');
-Route::get('/rack/{rack}', 'RackController@show');
 Auth::routes();
 
-
+Route::group(['prefix' => 'rack'], function (){
+    Route::get('/', 'RackController@index');
+    Route::get('/create', 'RackController@create');
+    Route::post('/store', 'RackController@store');
+    Route::get('/index', 'RackController@index');
+    Route::get('/{rack}/edit', 'RackController@edit');
+    Route::get('/{rack}', 'RackController@show');
+    Route::patch('/{id}', 'RackController@update');
+    Route::delete('/{rack}', 'RackController@destroy');
+});
 
 Route::group(['prefix' => 'article'], function (){
     Route::get('/create', 'ArticleController@create');
