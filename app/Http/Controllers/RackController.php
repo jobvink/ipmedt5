@@ -11,6 +11,10 @@ use App\Product;
 
 class RackController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -101,50 +105,5 @@ class RackController extends Controller
         Rack::destroy($rack->id);
         return redirect('/rack/index');
     }
-
-    public function showJson(Product $product){
-        return $product;
-    }
-
-    public function syncProducts(Request $request){
-        $data = request()->json()->all();
-        $rack = Rack::find($data['rack']);
-        foreach ($data['barcode'] as $barcode) {
-            if(count($rack->products()->where('products.id', $barcode)->get())){
-//                $rack->products()->updateExistingPivot($barcode, ['count' => $rack->products()->where('product_id', $barcode)->get()->first()->pivot->count + 1]);
-                $rack->incrementCount($barcode);
-            } else {
-                $rack->products()->attach($barcode, ['count' => 1]);
-            }
-        }
-        return $rack->products;
-    }
-
-    public function attach(Request $request){
-        $data = $request->json()->all();
-        $rack = Rack::find($data['rack']);
-        foreach ($data['barcode'] as $barcode) {
-            if(count($rack->products()->where('products.id', $barcode)->get())){
-                $rack->incrementCount($barcode);
-            } else {
-                $rack->products()->attach($barcode, ['count' => 1]);
-            }
-        }
-        return 'attach successful';
-    }
-
-    public function detach(Request $request){
-        $data = $request->json()->all();
-        $rack = Rack::find($data['rack']);
-        foreach ($data['barcode'] as $barcode) {
-            if($rack->count($barcode)>1){
-                $rack->decrementCount($barcode);
-            } else {
-                $rack->products()->detach($barcode);
-            }
-        }
-        return 'detach successful';
-    }
-
 
 }

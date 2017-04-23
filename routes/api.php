@@ -17,9 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/products/{product}', 'RackController@showJson')->middleware('auth:api');
-Route::post('/rack/attach', 'RackController@attach')->middleware('auth:api');
-Route::post('/rack/detach', 'RackController@detach')->middleware('auth:api');
+Route::get('/products/{id}', 'ApiController@showJson')->middleware('auth:api');
+Route::post('/rack/attach', 'ApiController@attach')->middleware('auth:api');
+Route::post('/rack/detach', 'ApiController@detach')->middleware('auth:api');
 
 
 
