@@ -117,7 +117,7 @@
                                         <option id="pickup-eind-{{$iter}}" value="{{$iter}}">{{$year . ' - ' . \App\Pickup::toMonthName($month)}}</option>
                                         {{$iter++}}
                                     @endforeach
-                                @endforeach
+                                @endforeachi
                             </select>
                         </div>
                     </div>
