@@ -56,4 +56,4 @@ Route::group(['prefix' => 'article'], function (){
     Route::delete('/{id}', 'ArticleController@destroy');
 });
 
-
+Route::get('/statistics', 'StatisticsController@index');

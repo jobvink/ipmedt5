@@ -18,6 +18,9 @@
                 <div class="panel-heading">
                     <a class="btn btn-primary" href="/article/create" role="button">Add article</a>
                 </div>
+                <div class="panel-heading">
+                    <a class="btn btn-primary" href="/statistics" role="button">See statistics about rack</a>
+                </div>
 
                 <passport-clients></passport-clients>
                 <passport-authorized-clients></passport-authorized-clients>
