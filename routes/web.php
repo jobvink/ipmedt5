@@ -55,4 +55,3 @@ Route::group(['prefix' => 'article'], function (){
     Route::patch('/{id}', 'ArticleController@update');
     Route::delete('/{id}', 'ArticleController@destroy');
 });
-Route::get('/statistics', 'StatisticsController@index');
